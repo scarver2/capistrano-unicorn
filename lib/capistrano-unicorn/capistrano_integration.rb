@@ -79,7 +79,7 @@ module CapistranoUnicorn
             fi;
           END
 
-          script
+          script.gsub("\t\n",' ').squeeze(" ") 
         end
 
         # Start the Unicorn server
@@ -114,7 +114,7 @@ module CapistranoUnicorn
             cd #{current_path} && BUNDLE_GEMFILE=#{current_path}/Gemfile #{unicorn_bundle} exec #{unicorn_bin} -c $UNICORN_CONFIG_PATH -E #{app_env} -D;
           END
 
-          script
+          script.gsub("\t\n",' ').squeeze(" ") 
         end
 
         def unicorn_roles
@@ -141,7 +141,7 @@ module CapistranoUnicorn
 
           desc 'Restart Unicorn'
           task :restart, :roles => unicorn_roles, :except => {:no_release => true} do
-            run <<-END
+            script <<-END
               set -x;
               if #{unicorn_is_running?}; then
                 echo "Restarting Unicorn...";
@@ -156,11 +156,13 @@ module CapistranoUnicorn
                 #{unicorn_send_signal('QUIT', get_old_unicorn_pid)};
               fi;
             END
+            
+            run script.gsub("\t\n",' ').squeeze(" ") 
           end
 
           desc 'Reload Unicorn'
           task :reload, :roles => unicorn_roles, :except => {:no_release => true} do
-            run <<-END
+            script = <<-END
               set -x;
               if #{unicorn_is_running?}; then
                 echo "Reloading Unicorn...";
@@ -169,11 +171,13 @@ module CapistranoUnicorn
                 #{start_unicorn}
               fi;
             END
+            
+            run script.gsub("\t\n",' ').squeeze(" ") 
           end
 
           desc 'Add a new worker'
           task :add_worker, :roles => unicorn_roles, :except => {:no_release => true} do
-            run <<-END
+            script = <<-END
               set -x;
               if #{unicorn_is_running?}; then
                 echo "Adding a new Unicorn worker...";
@@ -182,11 +186,13 @@ module CapistranoUnicorn
                 echo "Unicorn is not running.";
               fi;
             END
+            
+            run script.gsub("\t\n",' ').squeeze(" ") 
           end
 
           desc 'Remove amount of workers'
           task :remove_worker, :roles => unicorn_roles, :except => {:no_release => true} do
-            run <<-END
+            script = <<-END
               set -x;
               if #{unicorn_is_running?}; then
                 echo "Removing a Unicorn worker...";
@@ -195,6 +201,8 @@ module CapistranoUnicorn
                 echo "Unicorn is not running.";
               fi;
             END
+            
+            run script.gsub("\t\n",' ').squeeze(" ") 
           end
         end
       end
