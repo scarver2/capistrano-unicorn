@@ -141,7 +141,7 @@ module CapistranoUnicorn
 
           desc 'Restart Unicorn'
           task :restart, :roles => unicorn_roles, :except => {:no_release => true} do
-            script <<-END
+            script = <<-END
               set -x;
               if #{unicorn_is_running?}; then
                 echo "Restarting Unicorn...";
