@@ -79,7 +79,7 @@ module CapistranoUnicorn
             fi;
           END
 
-          script.gsub("\t\n",' ').squeeze(" ") 
+          script.gsub(/\n|\t/,' ').squeeze(' ') 
         end
 
         # Start the Unicorn server
@@ -114,7 +114,7 @@ module CapistranoUnicorn
             cd #{current_path} && BUNDLE_GEMFILE=#{current_path}/Gemfile #{unicorn_bundle} exec #{unicorn_bin} -c $UNICORN_CONFIG_PATH -E #{app_env} -D;
           END
 
-          script.gsub("\t\n",' ').squeeze(" ") 
+          script.gsub(/\n|\t/,' ').squeeze(' ') 
         end
 
         def unicorn_roles
@@ -157,7 +157,7 @@ module CapistranoUnicorn
               fi;
             END
             
-            run script.gsub("\t\n",' ').squeeze(" ") 
+            run script.gsub(/\n|\t/,' ').squeeze(' ') 
           end
 
           desc 'Reload Unicorn'
@@ -172,7 +172,7 @@ module CapistranoUnicorn
               fi;
             END
             
-            run script.gsub("\t\n",' ').squeeze(" ") 
+            run script.gsub(/\n|\t/,' ').squeeze(' ') 
           end
 
           desc 'Add a new worker'
@@ -187,7 +187,7 @@ module CapistranoUnicorn
               fi;
             END
             
-            run script.gsub("\t\n",' ').squeeze(" ") 
+            run script.gsub(/\n|\t/,' ').squeeze(' ') 
           end
 
           desc 'Remove amount of workers'
@@ -202,7 +202,7 @@ module CapistranoUnicorn
               fi;
             END
             
-            run script.gsub("\t\n",' ').squeeze(" ") 
+            run script.gsub(/\n|\t/,' ').squeeze(' ') 
           end
         end
       end
